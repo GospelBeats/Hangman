@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hangman JavaScript</title>
+    <title>Hangman Game</title>
 </head>
 <body>
-<h1>Press Any Key To Get Started</h1>
+<h1>Press A Letter To Get Started</h1>
 <hr>
 <h2 id="current-word"></h2>
 <hr>
@@ -21,28 +21,32 @@
 
 // ****************** THE GAME **************************
 
-//create an array of words
+// create an array of words to guess
 let words = ["apple", "banana", "pear", "grapes", "mango"]; 
 
-//pick a random word from the words array
+// pick a random word from the words array
 let hiddenWord = words[Math.floor(Math.random() * words.length)];
 
-//answerArray show how many letters are in word using _'s
+// answerArray show how many letters are in word using _'s
 let answerArray = [];
 
-//variable to keep track of guesses to determine win or lose
+// variable to keep track of guesses to determine win or lose
+// get guesses-remaining div from html
+// convert variable to number
 let guessesRemaining = document.getElementById("guesses-remaining");
 guessesRemaining = 5;
 
-//fill answerArray with underlines
+// fill answerArray with underlines
 for (let i = 0; i < hiddenWord.length; i++){
     answerArray[i] = "_";
 }
 
+// eliminate the commas in answerArray
 let currentWord = document.getElementById("current-word").textContent = answerArray.join(" ");
 
-// ****************** MAIN GAME FUNCTION *****************
+// ****************** MAIN GAME FUNCTION ***************** //
 
+// function to get input from the keyboard
 document.addEventListener('keyup', startGame);
 
 function startGame(event) { // start of game function
@@ -51,7 +55,7 @@ function startGame(event) { // start of game function
 userGuess = event.key;
 
 let isFound = false;
-//test if random word is equals userGuess
+//test if random word is equals userGuess loop
 for (let i = 0; i < hiddenWord.length; i++){
     if (userGuess === hiddenWord[i]){
       isFound = true;
@@ -60,12 +64,12 @@ for (let i = 0; i < hiddenWord.length; i++){
 
       // putting answer array on screen
       document.getElementById("current-word").textContent = answerArray.join(" "); 
-    }
-     
+    }    
 } // end of for loop
 
-
+// if user guess the wrong letter
     if (!isFound){
+      // get already-guessed div
       let alreadyGuessed = document.getElementById("already-guessed");
       let alreadyFound = false;
       
