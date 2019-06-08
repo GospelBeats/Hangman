@@ -4,68 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Hangman JavaScript</title>
 </head>
 <body>
+<h1>Press Any Key To Get Started</h1>
+<hr>
+<h2 id="current-word"></h2>
+<hr>
+<h2>Already Guessed</h2>
+<div id="already-guessed"></div>
+<hr>
+<h2>Remaining Guesses</h2>
+<div id="guesses-remaining">6</div>
+
+<script>
+
+// ****************** SET UP GAME ***********************
+// ******************************************************
+// ******************************************************
+
+//create an array of words
+let words = ["apple", "banana", "pear", "grapes", "mango"]; 
+
+//pick a random word from the words array
+let hiddenWord = words[Math.floor(Math.random() * words.length)];
+
+//answerArray show how many letters are in word using _'s
+let answerArray = [];
+
+//fill answerArray with underlines
+for (let i = 0; i < hiddenWord.length; i++){
+    answerArray[i] = "_";
+}
+
+let currentWord = document.getElementById("current-word").textContent = answerArray.join(" ");
 
 
+document.addEventListener('keyup', startGame);
 
-   <script>
-   //create an array of words
-   var words = ["apple", "banana", "bear", "peach"];
 
-   //pick a random word from the words array
-   var word = words[Math.floor(Math.random() * words.length)];
+function startGame(event) { // start of game function
 
-   //sets up the answerArray to show how many letters there are using_'s
-   var answerArray = [];
-   for(let i = 0; i < word.length; i++) {
-       answerArray[i] = "_";
-   }
+//stored key letter in userGuess
+userGuess = event.key;
 
-   //create a variable to hold the number of remainingLetters to be guessed
-   let remainingLetters = word.length;
+let isFound = false;
+//test if random word is equals userGuess
+for (let i = 0; i < hiddenWord.length; i++){
+    if (userGuess === hiddenWord[i]){
+      isFound = true;
+      // adding user guess to answer array
+      answerArray[i] = userGuess;
 
-   // ******************************* THE MAIN GAME LOOP ******************
-
-   //While there are letters left to be guessed
-   while (remainingLetters > 0){
-       //show the player their progress
-       alert(answerArray.join(" "));
-
-       // get a guess from the player
-       var guess = prompt("Guess a letter, or click Cancel to exit");
-
-       //if the guess is blank
-       if (guess == null){
-           //exit the game loop
-           break;
-           //if the guess is more than one letter or no letters
-       }else if (guess.length !== 1){
-           //alert them to guess a single letter only
-           alert("Please enter a single letter");
-           //valid guess
-       }else{
-           //update the game state with the guess
-           for (var j = 0; j < word.length; j++){
-               //if the letter they guessed is in the word at that point or index
-               if (word[j] === guess){
-                   //update the answer array with the letter they guessed at that point
-                   answerArray[j] = guess;
-                   //substract one from remaining letters
-                   remainingLetters--;
-               }
-
-           }
+      // putting answer array on screen
+      document.getElementById("current-word").textContent = answerArray.join(" "); 
+    }
+     
+    // else {
+    //     document.getElementById("already-guessed").textContent = userGuess;
+    //     let guessesRemaining = document.getElementById("guesses-remaining");
+    //     guessesRemaining--;
+    // }
+} // end of for loop
+    if (!isFound){
+      let alreadyGuessed = document.getElementById("already-guessed");
+      let alreadyFound = false;
+      
+      let tempArray = alreadyGuessed.textContent.split();
+    
+      for (let j = 0; j < tempArray.length; j++){
+       if (userGuess === tempArray[j]){
+         alreadyFound = true;
        }
-       // ****************************** END OF GAME LOOP ******************
-   }
-//let player know the word 
-alert(answerArray.join(" "));
 
-//congrats the player
-alert("Good Job! The answer was " + word);
+      }
+      if (!alreadyFound) {
+        alreadyGuessed.textContent += userGuess; 
+      }
+    }
 
-   </script>
+      if (!answerArray.includes("_")){
+        alert("Congrats You Won!!!");
+      }
+      
+    
+   
+
+} // end of start game function
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
 </body>
 </html>

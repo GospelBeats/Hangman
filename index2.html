@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div>
+    <h2>Press a Key to Choose a Letter</h2>
+    <h2>Guess the Word</h2>
+    <div id="current-word">
+
+    </div>
+    
+    <div id="userGuess">
+
+    </div>
+
+</div>
+
+
+<script>
+// variables **********************************************
+let wordBank = ["apple", "pear"];
+let wins = 0;
+let loss = 0;
+let wrongLetter = [];
+let guessesLeft = 9;
+let underScores = [];
+let userGuessed = [];
+let randWord;
+// main function ******************************************
+function startGame(){
+    randWord = wordBank[Math.floor(Math.random() * wordBank.length)];
+    for(let i = 0; i < randWord.length; i++){
+        underScores.push(" _ ");
+    }
+    document.getElementById("current-word").textContent = underScores.join(" ");
+}
+
+startGame();
+</script>
+
+</body>
+</html>
