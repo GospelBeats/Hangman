@@ -19,9 +19,7 @@
 
 <script>
 
-// ****************** SET UP GAME ***********************
-// ******************************************************
-// ******************************************************
+// ****************** THE GAME **************************
 
 //create an array of words
 let words = ["apple", "banana", "pear", "grapes", "mango"]; 
@@ -32,6 +30,10 @@ let hiddenWord = words[Math.floor(Math.random() * words.length)];
 //answerArray show how many letters are in word using _'s
 let answerArray = [];
 
+//variable to keep track of guesses to determine win or lose
+let guessesRemaining = document.getElementById("guesses-remaining");
+guessesRemaining = 5;
+
 //fill answerArray with underlines
 for (let i = 0; i < hiddenWord.length; i++){
     answerArray[i] = "_";
@@ -39,9 +41,9 @@ for (let i = 0; i < hiddenWord.length; i++){
 
 let currentWord = document.getElementById("current-word").textContent = answerArray.join(" ");
 
+// ****************** MAIN GAME FUNCTION *****************
 
 document.addEventListener('keyup', startGame);
-
 
 function startGame(event) { // start of game function
 
@@ -60,12 +62,9 @@ for (let i = 0; i < hiddenWord.length; i++){
       document.getElementById("current-word").textContent = answerArray.join(" "); 
     }
      
-    // else {
-    //     document.getElementById("already-guessed").textContent = userGuess;
-    //     let guessesRemaining = document.getElementById("guesses-remaining");
-    //     guessesRemaining--;
-    // }
 } // end of for loop
+
+
     if (!isFound){
       let alreadyGuessed = document.getElementById("already-guessed");
       let alreadyFound = false;
@@ -80,14 +79,21 @@ for (let i = 0; i < hiddenWord.length; i++){
       }
       if (!alreadyFound) {
         alreadyGuessed.textContent += userGuess; 
+        document.getElementById("guesses-remaining").textContent = guessesRemaining--;  
       }
     }
 
+      // check if user wins the game
       if (!answerArray.includes("_")){
         alert("Congrats You Won!!!");
+        location.reload();
       }
       
-    
+      // check if user loses the game 
+      if (guessesRemaining < 0){
+        alert("Sorry You Lost, Try Again");
+        location.reload();
+      }
    
 
 } // end of start game function
